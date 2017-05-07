@@ -1,0 +1,26 @@
+2 Il Broker
+
+Nei sistemi publish/subscriber, viene definito "broker" un componente distribuito
+accessibile tramite protocollo TCP/IP che consente 
+
+1. la pubblicazione di eventi da parte di applicazioni esterne. Ogni evento
+ha un "payload" (il contenuto) e un "argomento", 
+
+2. la sottoscrizione da parte di applicazioni esterne agli "argomenti". Le applicazioni
+che si sottoscrivono ad un argomento riceveranno gli eventi pubblicati
+per quell'argomento
+
+Si implementi un semplice Broker in java, che ascolti su uno (o piu') socket
+le connessioni in ingresso. Le connessioni possono essere di 2 tipi: pubblicazioni
+e sottoscrizioni. La pubblicazione di un evento termina appena l'evento 
+viene preso in carico dal Broker, mentre la sottoscrizione stabilisce una connessione
+stabile tramite la quale il Broker puo' comunicare gli eventi all'applicazione
+che si sottoscrive. Assunzioni generali:
+
+1. il payload dell'evento e' semplicemente una stringa
+2. l'argomento dell'evento e' semplicemente una stringa
+3. il broker non accetta eventi per un argomento se l'ultimo evento non e' stato
+ricevuto da tutti i sottoscrittori per quell'evento [i veri broker non fanno cosi' !!!]
+4. le strutture dati di gestione degli argomenti possono essere create sia
+quando viene fatta la prima sottoscrizione per quell'argomento sia quando 
+viene fatta la prima pubblicazione per quell'argomento
