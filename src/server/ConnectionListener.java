@@ -45,7 +45,10 @@ public class ConnectionListener implements Runnable{
 					addSubscriber(sb);
 				} else{
 					System.out.println("This is a publication.");
-					toBePublished.add(event);
+					synchronized(toBePublished){
+						toBePublished.add(event);
+						toBePublished.notify();
+					}		
 				}
 				System.out.println("toBePublished: " + this.toBePublished);
 				System.out.println("subscriber: " + this.subscribers);

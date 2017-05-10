@@ -28,6 +28,7 @@ public class Broker implements Runnable{
 			tListeners.get(this.tListeners.size() - 1).start();
 		}
 		System.out.println("Notice: toBePublished hashCode from Broker class is " + this.toBePublished.hashCode() );
+		System.out.println("Notice: is Broker list the same of ConnectionListerner? " + Boolean.toString(this.toBePublished == this.listeners.get(0).toBePublished));
 	}
 	
 	private void send(Subscription s,Event a) throws IOException{
@@ -40,8 +41,18 @@ public class Broker implements Runnable{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+		System.out.println("Broker Thread started.");
 		while(true){
-			if(!this.toBePublished.isEmpty()){
+			synchronized(this.toBePublished){
+				while(this.toBePublished.isEmpty()){
+					try {
+						System.out.println("Waiting...");
+						this.toBePublished.wait();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
 				System.out.println("Sending publication...");
 				Event e = toBePublished.removeLast();
 				try {
